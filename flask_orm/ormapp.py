@@ -51,6 +51,34 @@ def login():
 
     return render_template('login.html',error=error)
 
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    error = None
+    if request.method == 'POST':
+
+        uname =request.form['username']
+        passwd = request.form['password']
+        spasswd =  request.form['spassword']
+
+        if  len(uname.strip()) == 0 :
+            error = "Username field cannot be empty"
+        elif (User.query.filter_by(username=uname).count() > 0):
+            error = "Username is already in use. Choose another"
+        elif len(passwd) == 0 | len(spasswd) == 0:
+            error = 'Password field cannot be empty'
+        elif spasswd != passwd:
+            error = 'Passwords do not match'
+        else :
+            u = User(uname,passwd);
+            db_session.add(u);
+            db_session.commit()
+            flash("Registration was successful")
+            return redirect(url_for("login"))
+
+    return render_template('register.html',error=error)
+
+
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
