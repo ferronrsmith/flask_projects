@@ -38,14 +38,17 @@ def login():
         uname = username=request.form['username']
         passwd = password = request.form['password']
 
-        user = User.query.filter_by(username=uname,password=passwd).first()
+        user = User.query.filter_by(username=uname).first()
 
         if user is None:
-            error = 'Invalid username or password'
-        else :
+            error = 'Invalid username'
+        elif(user.check_password(passwd)):
             session['logged_in'] = True
             flash('You were logged in')
             return redirect(url_for('show_entries'))
+        else :
+            error = 'Invalid password'
+
     return render_template('login.html',error=error)
 
 @app.route('/logout')

@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String
 from database import Base
+from werkzeug.security import generate_password_hash, check_password_hash
 
 class Blog(Base):
 	__tablename__ = 'blog'
@@ -21,4 +22,10 @@ class User(Base):
 
     def __init__ (self, username=None, password=None):
         self.username = username
-        self.password = password
+        self.set_password(password)
+
+    def set_password(self, password):
+        self.password = generate_password_hash(password, method="sha1", salt_length=8)
+
+    def check_password(self, password):
+        return check_password_hash(self.password,password)
