@@ -6,7 +6,6 @@ because I like CouchDB. It's a basic photolog app that lets you submit blog
 posts that are photos.
 """
 import datetime
-import uuid
 import os
 from flask import (Flask, request, url_for, redirect, render_template, flash,
                    session, g)
@@ -15,45 +14,22 @@ from flask.helpers import jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from packages.uploads import (UploadSet, configure_uploads, IMAGES,
                               UploadNotAllowed)
-
-DEBUG = False
-SECRET_KEY = ('\xa3\xb6\x15\xe3E\xc4\x8c\xbaT\x14\xd1:'
-              '\xafc\x9c|.\xc0H\x8d\xf2\xe5\xbd\xd5')
-
-UPLOADED_PHOTOS_DEST = os.curdir + '/static/files/'
-
-ADMIN_USERNAME = 'admin'
-ADMIN_PASSWORD = 'enter'
-
-
+from packages.snippets import timesince, login_required
+from models import *
 # application
 
 app = Flask(__name__)
-app.config.from_object(__name__)
-app.config.from_envvar('PHOTOLOG_SETTINGS', silent=True)
-app.config['MONGOALCHEMY_DATABASE'] = 'file_manager'
-
-db = MongoAlchemy(app)
-
-# documents
-class User(db.Document):
-    username = db.StringField()
-    password = db.StringField()
-
-class File(db.Document):
-    filename = db.StringField()
-    filepath = db.StringField()
-    fileabslink = db.StringField()
-    author = db.DocumentField(User)
-    title = db.StringField()
-    caption = db.StringField()
-    date = db.DateTimeField()
+app.config.from_pyfile('upload.cfg')
+app.jinja_env.filters['timesince'] = timesince
 
 # uploads
 
 uploaded_photos = UploadSet('photos', IMAGES)
 configure_uploads(app, uploaded_photos)
 
+# mongo alchemy
+
+db = MongoAlchemy(app)
 
 
 # utils
@@ -66,15 +42,14 @@ def to_index():
 def login_handle():
     g.logged_in = bool(session.get('logged_in'))
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
 @app.route('/show')
+@login_required
 def show_entries():
-    if not session.get('logged_in'):
-        flash("You are not logged in")
-        return redirect(url_for('login'))
     uname = session.get('user_name')
     entries = File.query.filter(File.author.username == uname)
     return render_template('show_entries.html',entries=entries)
@@ -92,11 +67,8 @@ def delete_entry() :
 
 # views
 @app.route('/new', methods=['GET', 'POST'])
+@login_required
 def new():
-    if not session.get('logged_in'):
-        flash("You are not logged in")
-        return redirect(url_for('login'))
-
     if request.method == 'POST':
         photo = request.files.get('photo')
         title = request.form.get('title')

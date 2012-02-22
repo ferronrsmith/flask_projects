@@ -1,14 +1,15 @@
-from mongoalchemy.document import Document, DocumentField
-from mongoalchemy.fields import StringField, DateTimeField
+from photolog import db
 
-class User(Document):
-    username = StringField()
-    password = StringField()
+# documents
+class User(db.Document):
+    username = db.StringField()
+    password = db.StringField()
 
-class File(Document):
-    filename = StringField()
-    filepath = StringField()
-    author = DocumentField(User)
-    title = StringField()
-    caption = StringField()
-    date = DateTimeField()
+class File(db.Document):
+    filename = db.StringField()
+    filepath = db.StringField()
+    fileabslink = db.StringField()
+    author = db.DocumentField(User)
+    title = db.StringField()
+    caption = db.StringField()
+    date = db.DateTimeField()

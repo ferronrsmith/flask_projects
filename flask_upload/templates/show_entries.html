@@ -16,6 +16,10 @@
             });
         }
         </script>
+        <h2>Photo upload</h2>
+        <br />
+        <em>Support files : jpg, jpe, jpeg, png, gif, svg, bmp</em>
+
         <form action="{{ url_for('new') }}" method=POST enctype=multipart/form-data>
             <dl>
                 <dt>Title
@@ -34,16 +38,17 @@
         <ul class="entries">
             {% for entry in entries %}
             <li>
-                <h2> {{ entry.title }} </h2> Description : {{ entry.caption|safe }}
+                <h2> {{ entry.title }} </h2>
+                <em class="desc">Description : {{ entry.caption|safe }}</em>
                 <br />
                 <em class="date">
-                    {{ entry.date.strftime("%A, %B %d %Y at %I:%M:%S %p") }}
+                    {{ entry.date | timesince }}
                 </em>
                 <br />
                 <em class="file">
-                    File Link: <a href="{{ entry.fileabslink }}">{{ entry.filename }}</a>
+                    File Link: <a href="{{ entry.fileabslink }}">{{ entry.title }}</a>
                 </em>
-                <em><input type="button" value="delete" onclick="deleteRecord('{{ entry.filename }}')"></em>
+                <em><a class="delete" href="#" onclick="deleteRecord('{{ entry.filename }}')">delete</a></em>
 
             </li>
             {% else %}

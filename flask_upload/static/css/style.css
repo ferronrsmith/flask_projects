@@ -43,13 +43,6 @@ div.flashes {
     font-style: italic;
 }
 
-a {
-    color: #ccc;
-}
-
-div#body a {
-    color: #333;
-}
 
 p.image img {
     max-width: 580px;
@@ -57,7 +50,7 @@ p.image img {
 
 
 body            { font-family: sans-serif; background: #eee; }
-a, h1, h2       { color: #377BA8; }
+h1, h2       { color: #377BA8; }
 h1, h2          { font-family: 'Georgia', serif; margin: 0; }
 h1              { border-bottom: 2px solid #eee; }
 h2              { font-size: 1.2em; }
@@ -74,3 +67,6 @@ h2              { font-size: 1.2em; }
 .flash          { background: #CEE5F5; padding: 0.5em;
     border: 1px solid #AACBE2; }
 .error          { background: #F0D6D6; padding: 0.5em; }
+.date {color:#808080;}
+.desc {color:#9370db;font-weight: bold;font-size: 11pt}
+.delete {color:#23707E;margin-left: 20px}

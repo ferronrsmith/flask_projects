@@ -9,6 +9,7 @@
 <div id=nav>
     {% if g.logged_in -%}
     <a href="{{ url_for('new') }}">New Post</a> |
+    <a href="{{ url_for('show_entries') }}">All Post</a> |
     <a href="{{ url_for('logout') }}">Logout</a>
     {% else -%}
     <a href="{{ url_for('login') }}">Login</a>
