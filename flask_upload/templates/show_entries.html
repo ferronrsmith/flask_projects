@@ -15,9 +15,7 @@
                     location.reload()
             });
         }
-
         </script>
-
         <form action="{{ url_for('new') }}" method=POST enctype=multipart/form-data>
             <dl>
                 <dt>Title
@@ -29,6 +27,9 @@
             </dl>
             <p><input type=submit value=Post>
         </form>
+
+
+
         {% endif %}
         <ul class="entries">
             {% for entry in entries %}

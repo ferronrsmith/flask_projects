@@ -1,11 +1,11 @@
 from mongoalchemy.document import Document, DocumentField
 from mongoalchemy.fields import StringField, DateTimeField
 
-class User(db.Document):
+class User(Document):
     username = StringField()
     password = StringField()
 
-class File(db.Document):
+class File(Document):
     filename = StringField()
     filepath = StringField()
     author = DocumentField(User)
