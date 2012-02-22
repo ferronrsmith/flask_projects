@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}Register{% endblock title %}
+
+{% block body %}
+
+<h2>Registration Page</h2>
+{% if error %} <p class="error"><strong>Error:</strong> {{ error }} {% endif %}</p>
+<form action="{{ url_for('register') }}" method=POST>
+
+<dl>
+<dt>Username
+    <dd><input type=text name=username>
+
+<dt>Password
+    <dd><input type=password name=password>
+
+<dt>Re-enter password
+    <dd><input type=password name=spassword>
+
+</dl>
+
+<p><input type=submit value=Register>
+
+</form>
+
+{% endblock body %}

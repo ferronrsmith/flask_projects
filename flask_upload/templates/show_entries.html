@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block body %}
+    {% if session.logged_in %}
+        <script type=text/javascript>
+            $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+        </script>
+
+        <script type="text/javascript">
+
+        function deleteRecord(file) {
+            $.getJSON($SCRIPT_ROOT+'/_delete_entry', {
+               fname : file
+            }, function(data) {
+                if(data.result)
+                    location.reload()
+            });
+        }
+
+        </script>
+
+        <form action="{{ url_for('new') }}" method=POST enctype=multipart/form-data>
+            <dl>
+                <dt>Title
+                <dd><input type=text name=title>
+                <dt>File
+                <dd><input type=file name=photo>
+                <dt>Caption
+                <dd><textarea name=caption rows=5 cols=40></textarea>
+            </dl>
+            <p><input type=submit value=Post>
+        </form>
+        {% endif %}
+        <ul class="entries">
+            {% for entry in entries %}
+            <li>
+                <h2> {{ entry.title }} </h2> Description : {{ entry.caption|safe }}
+                <br />
+                <em class="date">
+                    {{ entry.date.strftime("%A, %B %d %Y at %I:%M:%S %p") }}
+                </em>
+                <br />
+                <em class="file">
+                    File Link: <a href="{{ entry.fileabslink }}">{{ entry.filename }}</a>
+                </em>
+                <em><input type="button" value="delete" onclick="deleteRecord('{{ entry.filename }}')"></em>
+
+            </li>
+            {% else %}
+                <li><em>Unbelievable. No entries here so far</em></li>
+            {% endfor %}
+        </ul>
+        {% endblock %}
