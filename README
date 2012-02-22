@@ -4,6 +4,10 @@ flask : http://flask.pocoo.org/
 flask sqlaclchemy : http://packages.python.org/Flask-SQLAlchemy/
 sqlalchemy (original project) : http://www.sqlalchemy.org/
 gae : http://code.google.com/appengine/
+Flask-Upload : http://packages.python.org/Flask-Uploads/
+MongoAlchemy : http://packages.python.org/Flask-MongoAlchemy/
+MongoDB : http://www.mongodb.org/
+
 flask-appengine-template : https://github.com/kamalgill/flask-appengine-template (this was my starting point)
 
 flask_db - project connecting to a sqlite db
@@ -11,7 +15,7 @@ flask_orm - project connecting to a sqlite db using flask alchemy orm
 flask_gae - running flask on app enging (authentication : harded password)
 flask_gae_db - running flask on app enging (authentication : appengine db with passwords stored with a sha1 hash)
 flask_gae_user - running flask on app enging (authentication : google open id authentication)
-
+flask_flask_upload - simple photo manager, with user registration and authentication. MongoDB is used as storage for document information
 Developer : Ferron Smith
 
 
