@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if error %} <p class="error"><strong>Error:</strong> {{ error }} </p>{% endif %}
+  <dl>
+  <dt>Paste Long Url Here:
+  <dt><input type=text name=longurl size=50 id=urlid>
+  <input type=button value="Shorten Url" onclick='submit_request()'>
+  <dt>Shortened Url: <a href="#" id=result></a>
+  </dl>
+  <table class="urltable" id=tid>
+    {% if entries %}
+      <tr>
+        <th>Long Url</th>
+        <th>Short Url</th>
+      </tr>
+      {% for entry in entries %}
+      <tr>
+        <td><a id=longurl href="{{ entry.longurl }}">{{ entry.longurl_short }}</a></td>
+        <td><a id=shorturl href="{{ entry.shorturl }}">{{ entry.shorturl }}</a></td>
+      </tr>
+      {% endfor %}
+    {% endif %}
+  </table>
+{% endblock %}

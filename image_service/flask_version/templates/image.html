@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block body %}
+{% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+
+  {% if imagedata %}
+    <div class="left-panel">
+        <img class="uploadedimg" src="/image/{{ imagedata.shorturl }}" alt="{{ imagedata.shorturl }}" />
+    </div>
+    <div class="right-panel">
+        <span class="date">Uploaded : {{ imagedata.date | timesince }}</span> <br />
+        <input type="text" name="filename" id="filename" value="{{ imagedata.filename }}" disabled="disabled" />
+        <input type="hidden" name="shorturl" id="shorturl" value="{{ imagedata.shorturl }}"/>
+        <br /><br />
+        <a class="large button green" id="edit" href="#" onclick="editMode()">edit title</a>
+        <a class="large button blue" id="save" href="#" onclick="updateTitle()">save changes</a>
+        <a class="large button red" id="delete" href="#" onclick="deleteImg()">delete</a>
+    </div>
+   {% endif %}
+
+{% endblock %}

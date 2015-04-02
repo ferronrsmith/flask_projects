@@ -1,0 +1,22 @@
+<!doctype html>
+<title>Tarple's Blog</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/main.css') }}" />
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.oembed.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+<div class=page>
+  <h1>Tarple's Blog</h1>
+  <div class=metanav>
+  {% if not session.logged_in %}
+    <a href="{{ url_for('login') }}">log in</a>
+    <a href="{{ url_for('register') }}">register</a>
+  {% else %}
+      {% block url %}{% endblock %}
+    <a href="{{ url_for('logout') }}">log out</a>
+  {% endif %}
+  </div>
+  {% for message in get_flashed_messages() %}
+    <div class=flash>{{ message }}</div>
+  {% endfor %}
+  {% block body %}{% endblock %}
+</div>

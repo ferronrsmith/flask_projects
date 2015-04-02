@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+
+{% block url %}
+    <a href="{{ url_for('show_entries') }}">main</a>
+{% endblock %}
+
+{% block body %}
+{% if session.logged_in %}
+<script type="text/javascript">
+
+    $(function() {
+        //embed videos for embedded vimeo/youtube links via oembed
+        $(".omebed").oembed(null,
+                {
+                    embedMethod: "append",
+                    maxWidth: 540,
+                    maxHeight: 360,
+                    vimeo: { autoplay: false, maxWidth: 540, maxHeight: 360},
+                    youtube: { autoplay: false, maxWidth: 540, maxHeight: 360}
+                });
+    });
+
+</script>
+
+{% if post and session.u_id == post.uid %}
+<a href="/edit/{{ post.id }}">edit</a> | <a href="/delete/{{ post.id }}">delete</a>
+
+{% endif %}
+        {% else %}
+            <a href="{{ url_for('show_entries') }}">home</a>
+{% endif %}
+
+<ul class=entries>
+    {% if post %}
+    <li><h2>{{ post.title }}</h2>
+        <em class="posted_by"> post by {{ post.uid | get_user }} {{ post.date_created | timesince }}</em><br/>
+
+        {{ post.desc|safe }}
+        {% else %}
+    <li><em>Blog post not found!</em>
+    {% endif %}
+</ul>
+    {% if post %}
+        <div class="commentsHead">comment</div>
+        <br />
+        {% for comment in post.comments %}
+            <div class="commentTitle">Re: {{ post.title }}</div>
+            <em>{{ comment.text }}</em> <br />
+            <em class="commentsDate"> post by {{ comment.uid | get_user }} {{ comment.date | timesince }}</em><br/>
+            <br />
+        {% endfor %}
+        <br />
+{% if session.logged_in %}
+    <form action="{{ url_for('comment') }}" method="post">
+       <dl>
+        <dt class="comments">Add Comment</dt>
+        <dd class="rem_margin"><textarea id=comments name=comment rows=3 cols=40></textarea></dd>
+        <dd><input id="post_id" name=post_id value="{{ post.id }}" type=hidden></dd>
+        <dd class="rem_margin"><input id="btnPost" type=submit value=Post></dd>
+       </dl>
+    </form>
+{% endif %}
+    {% endif %}
+{% endblock %}

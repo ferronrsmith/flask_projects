@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+<h2>Upload</h2>
+
+{% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+<form action="{{ url_for('create') }}" method=post enctype="multipart/form-data" name="imageupload" id="imageupload">
+    <dl>
+        <dt>Select Image for upload:</dt>
+        <dd><input type=file id="image" name="image" accept="image/*" onchange="upload(this.files)"></dd>
+    </dl>
+</form>
+{% endblock %}

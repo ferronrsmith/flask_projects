@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if session.logged_in %}
+    <script type="text/javascript">
+        $(function(){
+            $('form').submit(function(){
+                var desc = $('#description').val();
+                // convert url to links
+                $('#desc_enc').val(desc.linkify());
+
+            });
+
+            //embed videos for embedded vimeo/youtube links via oembed
+            $(".omebed").oembed(null,
+                {
+                    embedMethod: "append",
+                    maxWidth: 540,
+                    maxHeight: 360,
+                    vimeo: { autoplay: false, maxWidth: 540, maxHeight: 360},
+                    youtube: { autoplay: false, maxWidth: 540, maxHeight: 360}
+                });
+        });
+
+    </script>
+
+    <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+      <dl>
+        <dt>Title:</dt>
+        <dd><input type=text size=30 name=title /></dd><dd></dd>
+        <dt>Description:</dt>
+        <dd><textarea id=description name=description rows=5 cols=40></textarea></dd>
+          <dd><input id="desc_enc" name="desc_enc"  type="hidden"></dd>
+         <dt>Tags:</dt>
+        <dd><input id="tags" type="text" name="tags" /></dd><dd></dd>
+        <dd><input id="btnSubmit" type=submit value=Post /></dd>
+      </dl>
+    </form>
+  {% endif %}
+  <ul class=entries>
+  {% for entry in posts %}
+    <li><h2><a href="/post/{{ entry.id }}">{{ entry.title }}</a></h2>
+        <em class="posted_by"> post by {{ entry.uid | get_user }} {{ entry.date_created | timesince }}</em><br/>
+
+        {{ entry.desc|safe }}
+        <br />
+        <em class="comments">comments ({{ entry.id | get_comment_count }})</em>
+  {% else %}
+    <li><em>No blog post here so far</em>
+  {% endfor %}
+  </ul>
+{% endblock %}

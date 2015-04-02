@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block body %}
+{% if session.logged_in %}
+<script type="text/javascript">
+    $(function(){
+        $('form').submit(function(){
+            var desc = $('#description').val();
+            // convert url to links
+            $('#desc_enc').val(desc.linkify());
+
+        });
+    });
+
+</script>
+{% if post and session.u_id == post.uid %}
+<form action="{{ url_for('edit') }}" method=post class=add-entry>
+    <dl>
+        <dt>Title:</dt>
+        <dd><input type=text size=30 name=title value="{{ post.title }}"></dd><br />
+        <dt>Description:</dt>
+        <dd><textarea id=description name=description rows=5 cols=40>{{ post.desc_enc }}</textarea></dd><br />
+        <input id="desc_enc" name="desc_enc"  type="hidden">
+        <dt>Tags:</dt>
+        <dd><input id="tags" type="text" name="tags" value="{{ post.tags }}"></dd><br />
+        <dd><input id="btnSubmit" type=submit value=Post></dd>
+    </dl>
+</form>
+{% else %}
+    <li><em>Cannot Edit : You are not the owner this post</em>
+{% endif %}
+{% endif %}
+{% endblock %}

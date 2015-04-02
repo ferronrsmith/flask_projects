@@ -10,12 +10,16 @@ MongoDB : http://www.mongodb.org/
 
 flask-appengine-template : https://github.com/kamalgill/flask-appengine-template (this was my starting point)
 
+flask_blog - simple blogging twitter like blogging website using flask & sqlite3
 flask_db - project connecting to a sqlite db
 flask_orm - project connecting to a sqlite db using flask alchemy orm
 flask_gae - running flask on app enging (authentication : harded password)
 flask_gae_db - running flask on app enging (authentication : appengine db with passwords stored with a sha1 hash)
 flask_gae_user - running flask on app enging (authentication : google open id authentication)
 flask_flask_upload - simple photo manager, with user registration and authentication. MongoDB is used as storage for document information
+image_service - image service examples built using sqlite3 blobs & another built using app engine Blob (pre Image)
+image_service - simple url shortener service built using sqlite3 backrnf & another on gae
+
 Developer : Ferron Smith
 
 

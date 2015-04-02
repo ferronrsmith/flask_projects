@@ -1,0 +1,9 @@
+/*Requirements list for running project1*/
+
+
+flask 0.8
+sqlite3
+werkzeug
+datetime
+json
+jinja2

@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block body %}
+{% if session.logged_in %}
+<script type="text/javascript">
+    $(function(){
+        $('form').submit(function(){
+            var desc = $('#description').val();
+            // convert url to links
+            $('#desc_enc').val(desc.linkify());
+
+        });
+
+        //embed videos for embedded vimeo/youtube links via oembed
+        $(".omebed").oembed(null,
+                {
+                    embedMethod: "append",
+                    maxWidth: 1024,
+                    maxHeight: 768,
+                    vimeo: { autoplay: false, maxWidth: 540, maxHeight: 360},
+                    youtube: { autoplay: false, maxWidth: 540, maxHeight: 360}
+                });
+    });
+
+</script>
+{% endif %}
+<ul class=entries>
+    {% if posts %}
+        {% for entry in posts %}
+        <li><h2><a href="/post/{{ entry.id }}">{{ entry.title }}</a></h2>
+            <em class="posted_by"> post by {{ entry.uid | get_user }} {{ entry.date_created | timesince }}</em><br/>
+
+            {{ entry.desc|safe }}
+            <br />
+            <em class="comments">comments ({{ entry.id | get_comment_count }})</em>
+        {% endfor %}
+    {% else %}
+        <li><em>No post found, sorry :( </em>
+    {% endif %}
+</ul>
+{% endblock %}
